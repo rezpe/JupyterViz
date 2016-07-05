@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>JSONEditor | Basic usage</title>
+
+  <link href="https://cdn.rawgit.com/josdejong/jsoneditor/master/dist/jsoneditor.min.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.rawgit.com/josdejong/jsoneditor/master/dist/jsoneditor.min.js"></script>
+
+  <style type="text/css">
+    #jsoneditor {
+      width: {width}px;
+      height: {height}px;
+    }
+  </style>
+</head>
+<body>
+<div id="jsoneditor"></div>
+
+<script>
+  // create the editor
+  var container = document.getElementById('jsoneditor');
+  var options = {};
+  var editor = new JSONEditor(container, options);
+  // set json
+  var json = {data};
+  editor.set(json);
+  // get json
+  document.getElementById('getJSON').onclick = function () {
+    var json = editor.get();
+    alert(JSON.stringify(json, null, 2));
+  };
+</script>
+</body>
+</html>
