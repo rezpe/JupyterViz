@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <style>
+    path.domain {
+      fill: none;
+      stroke: rgb(123, 165, 230);
+      stroke-width: 5;
+    }
+
+    .box line {
+      stroke: #7ac7df;
+      stroke-width: 5;
+    }
+
+    .box rect {
+      stroke: #7a9fdf;
+      stroke-width: 5;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="container"></div>
+
+  <script>
+    var data = {data};
+
+    var width = {width};
+    var height = {height};
+    var margin = 20;
+
+    var days = d3.extent(data, function(value, index) {
+      return value.day
+    });
+
+    var min = d3.min(data, function(value, index) {
+      return value.min
+    });
+    var max = d3.max(data, function(value, index) {
+      return value.max
+    });
+
+    var min = 0;
+    var max = 100;
+
+    xScale = d3.scale.linear().domain([days[0], parseInt(days[1]) + 1]).range([margin, width - margin]);
+    yScale = d3.scale.linear().domain([min, max]).range([height - margin, margin]);
+
+    var svg = d3.select("body")
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height)
+
+    yAxis = d3.svg.axis()
+      .scale(yScale)
+      .orient("left")
+
+    svg.append("g")
+      .attr("transform", "translate(" + (margin + 30) + ",-10)")
+      .attr("id", "yAxisG")
+      .call(yAxis);
+
+    xAxis = d3.svg.axis()
+      .scale(xScale)
+      .orient("bottom");
+
+    svg.append("g")
+      .attr("transform", "translate(" + (margin + 30) + "," + (height - margin - 10) + ")")
+      .attr("id", "xAxisG")
+      .call(xAxis);
+
+    svg.selectAll("g.box")
+      .data(data).enter()
+      .append("g")
+      .attr("class", "box")
+      .attr("transform", function(d) {
+        return "translate(" + (xScale(d.day) + (margin + 30)) + ",0)";
+      }).each(function(d, i) {
+
+        d3.select(this)
+          .append("line")
+          .attr("class", "range")
+          .attr("x1", 0)
+          .attr("x2", 0)
+          .attr("y1", yScale(d.max))
+          .attr("y2", yScale(d.min))
+
+        d3.select(this)
+          .append("line")
+          .attr("class", "max")
+          .attr("x1", -10)
+          .attr("x2", 10)
+          .attr("y1", yScale(d.max))
+          .attr("y2", yScale(d.max))
+
+        d3.select(this)
+          .append("line")
+          .attr("class", "min")
+          .attr("x1", -10)
+          .attr("x2", 10)
+          .attr("y1", yScale(d.min))
+          .attr("y2", yScale(d.min))
+
+        d3.select(this)
+          .append("rect")
+          .attr("class", "range")
+          .attr("width", 20)
+          .attr("x", -10)
+          .attr("y", yScale(d.q3))
+          .attr("height", yScale(d.q1) - yScale(d.q3))
+          .style("fill", "white")
+
+        d3.select(this)
+          .append("line")
+          .attr("x1", -10)
+          .attr("x2", 10)
+          .attr("y1", yScale(d.median))
+          .attr("y2", yScale(d.median))
+          .style("stroke", "darkgray")
+
+      });
+  </script>
+</body>

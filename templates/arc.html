@@ -1,0 +1,249 @@
+<html>
+
+<head>
+  <title>Arc Diagram Demo</title>
+  <meta charset="utf-8" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+  <script>
+    (function() {
+      d3.layout.arcDiagram = function() {
+        var directed = true,
+          size = [1, 1],
+          nodes = [],
+          edges = [],
+          edgeWeight = function(d) {
+            return 1
+          },
+          nodeID = function(d) {
+            return d.id
+          };
+
+        function arcDiagram() {
+          var width = size[0],
+            height = size[1],
+            nodeStep = width / nodes.length,
+            nodeHeight = height / nodes.length,
+            constructedMatrix = [],
+            matrix = [],
+            edgeHash = {},
+            nodeHash = {};
+
+          nodes.forEach(function(node, i) {
+            nodeHash[nodeID(node)] = node;
+            node.x = i * nodeStep;
+            node.y = size[1];
+          })
+
+          edges.forEach(function(edge) {
+            if (typeof edge.source === "number") {
+              edge.source = nodes[edge.source];
+            }
+            if (typeof edge.target === "number") {
+              edge.target = nodes[edge.target];
+            }
+            var id = nodeID(edge.source) + "-" + nodeID(edge.target);
+
+            if (!edgeHash[id]) {
+              edgeHash[id] = edge;
+            } else {
+              edgeHash[id].weight = edgeHash[id].weight + edgeWeight(edge);
+            }
+          });
+
+          return arcDiagram;
+        }
+
+        arcDiagram.directed = function(x) {
+          if (!arguments.length) return directed;
+          directed = x;
+          return arcDiagram;
+        }
+
+        arcDiagram.size = function(x) {
+          if (!arguments.length) return size;
+          size = x;
+          return arcDiagram;
+        }
+
+        arcDiagram.nodes = function(x) {
+          if (!arguments.length) return nodes;
+          nodes = x;
+          return arcDiagram;
+        }
+
+        arcDiagram.links = function(x) {
+          if (!arguments.length) return edges;
+          edges = x;
+          return arcDiagram;
+        }
+
+        arcDiagram.edgeWeight = function(x) {
+          if (!arguments.length) return edgeWeight;
+          if (typeof x === "function") {
+            edgeWeight = x;
+          } else {
+            edgeWeight = function() {
+              return x
+            };
+          }
+          return arcDiagram;
+        }
+
+        arcDiagram.nodeID = function(x) {
+          if (!arguments.length) return nodeID;
+          if (typeof x === "function") {
+            nodeID = x;
+          }
+          return arcDiagram;
+        }
+
+        arcDiagram.arc = function(d) {
+
+          var draw = d3.svg.line().interpolate("basis");
+          var midX = (d.source.x + d.target.x) / 2; //
+          var midPercent = Math.abs(((d.source.x - d.target.x) / size[0]));
+
+          var midY = size[1] + (midPercent * size[1]);
+          if (d.source.x > d.target.x) {
+            var midY = size[1] - (midPercent * size[1]);
+          }
+
+          return draw([
+            [d.source.x, d.source.y],
+            [midX, midY],
+            [d.target.x, d.target.y]
+          ])
+        }
+
+
+        return arcDiagram;
+      }
+
+    })();
+  </script>
+</head>
+<style>
+  svg {
+    height: 700px;
+    width: 700px;
+    border: 1px solid gray;
+    display: inline-block;
+  }
+
+  g.am-axis text {
+    font-size: 8px;
+  }
+
+  .domain {
+    fill: none;
+  }
+
+  .tick > line {
+    stroke: black;
+    stroke-width: 1px;
+    stroke-opacity: .25;
+  }
+</style>
+
+<body>
+
+  <div id="viz">
+    <svg id="arc-diagram">
+    </svg>
+
+  </div>
+</body>
+<footer>
+
+  <script>
+    var someColors = d3.scale.category20().range([
+      d3.rgb(0, 169, 224),
+      d3.rgb(206, 0, 88),
+      d3.rgb(106, 209, 227),
+      d3.rgb(229, 106, 84),
+      d3.rgb(167, 230, 215),
+      d3.rgb(236, 134, 208),
+      d3.rgb(255, 181, 73),
+      d3.rgb(255, 160, 106),
+      d3.rgb(130, 70, 175),
+      d3.rgb(210, 159, 19),
+      d3.rgb(201, 100, 207),
+      d3.rgb(254, 209, 65),
+      d3.rgb(0, 169, 224),
+      d3.rgb(206, 0, 88),
+      d3.rgb(106, 209, 227),
+      d3.rgb(229, 106, 84),
+      d3.rgb(167, 230, 215),
+      d3.rgb(236, 134, 208),
+      d3.rgb(255, 181, 73),
+      d3.rgb(255, 160, 106),
+      d3.rgb(130, 70, 175),
+      d3.rgb(210, 159, 19),
+      d3.rgb(201, 100, 207),
+      d3.rgb(254, 209, 65),
+    ]);;
+
+
+    d3.json("../data/miserables.json", createArcDiagram);
+
+    function createArcDiagram(data) {
+      //create some random back links just to demo the functionality
+      data.links.forEach(function(link) {
+        if (Math.random() < .1) {
+          data.links.push({
+            source: link.target,
+            target: link.source,
+            value: 1
+          })
+        }
+      });
+
+      var arcDiagram = d3.layout.arcDiagram()
+        .size([250, 200])
+        .nodes(data.nodes)
+        .links(data.links)
+        .nodeID(function(d) {
+          return d.name
+        });
+
+      //initialize the arc diagram
+      arcDiagram();
+
+      var arcG = d3.select("svg#arc-diagram")
+        .append("g").attr("id", "arcG")
+        .attr("transform", "translate(25,0)");
+
+      arcG.selectAll("path")
+        .data(data.links)
+        .enter()
+        .append("path")
+        .attr("class", "arc")
+        .style("stroke", function(d) {
+          return someColors(d.source.group)
+        })
+        .style("stroke-width", 2)
+        .style("opacity", .25)
+        .style("fill", "none")
+        .attr("d", arcDiagram.arc);
+
+      arcG.selectAll("circle")
+        .data(data.nodes)
+        .enter()
+        .append("circle")
+        .attr("class", "node")
+        .attr("r", 2)
+        .style("fill", function(d) {
+          return someColors(d.group)
+        })
+        .attr("cx", function(d) {
+          return d.x;
+        })
+        .attr("cy", function(d) {
+          return d.y
+        });
+
+    }
+  </script>
+</footer>
+
+</html>

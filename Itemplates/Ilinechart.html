@@ -1,0 +1,151 @@
+<html>
+
+<head>
+  <title>D3 in Action Chapter 4 - Example 10</title>
+  <meta charset="utf-8" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+</head>
+<style>
+  line {
+    shape-rendering: crispEdges;
+    stroke: #000000;
+  }
+
+  line.minor {
+    stroke: #777777;
+    stroke-dasharray: 2, 2;
+  }
+
+  path.domain {
+    fill: none;
+    stroke: black;
+  }
+</style>
+
+<body>
+
+  <script>
+  
+    var data = {data};
+
+    var width = {width};
+    var height = {height};
+    var margin = 20;
+
+    var days = d3.extent(data, function(value, index) {
+      return value.day
+    });
+
+    days[1] = parseInt(days[1]) + 2
+
+    var min = d3.min(data, function(value, index) {
+      var mins = []
+      for (var key in value) {
+        if (value != "day") {
+          mins.push(value[key])
+        }
+      }
+      return Math.min.apply(this, mins)
+    });
+
+    var max = d3.max(data, function(value, index) {
+      var maxs = []
+      for (var key in value) {
+        if (value != "day") {
+          maxs.push(value[key])
+        }
+      }
+      return Math.max.apply(this, maxs)
+    });
+
+    console.log(days)
+
+    xScale = d3.scale.linear().domain([days[0], days[1]]).range([margin, width - margin]);
+    yScale = d3.scale.linear().domain([min, max]).range([height - margin, margin]);
+
+    var svg = d3.select("body")
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height)
+
+    yAxis = d3.svg.axis()
+      .scale(yScale)
+      .orient("left")
+
+    svg.append("g")
+      .attr("transform", "translate(" + (margin + 30) + ",0)")
+      .attr("id", "yAxisG")
+      .call(yAxis);
+
+    xAxis = d3.svg.axis()
+      .scale(xScale)
+      .orient("bottom")
+
+    svg.append("g")
+      .attr("transform", "translate(" + (margin + 30) + "," + (height - margin) + ")")
+      .attr("id", "xAxisG")
+      .call(xAxis);
+
+    var g = svg
+      .append("g")
+      .attr("transform", function(d) {
+        return "translate(" + (margin + 30) + ",0)";
+      })
+
+    //Counter for colors
+    amadeusColors = [
+      d3.rgb(0, 169, 224),
+      d3.rgb(206, 0, 88),
+      d3.rgb(106, 209, 227),
+      d3.rgb(229, 106, 84),
+      d3.rgb(167, 230, 215),
+      d3.rgb(236, 134, 208),
+      d3.rgb(255, 181, 73),
+      d3.rgb(255, 160, 106),
+      d3.rgb(130, 70, 175),
+      d3.rgb(210, 159, 19),
+      d3.rgb(201, 100, 207),
+      d3.rgb(254, 209, 65),
+    ]
+    var n = 0
+
+    for (var key in data[0]) {
+      if (key != "day") {
+
+        g.selectAll("circle." + key)
+          .data(data)
+          .enter()
+          .append("circle")
+          .attr("class", key)
+          .attr("r", 5)
+          .attr("cx", function(d) {
+            return xScale(d.day)
+          })
+          .attr("cy", function(d) {
+            return yScale(d[key])
+          })
+          .style("fill", "black")
+
+        tweetLine = d3.svg.line()
+          .interpolate("cardinal")
+          .x(function(d) {
+            return xScale(d.day)
+          })
+          .y(function(d) {
+            return yScale(d[key])
+          })
+
+        g
+          .append("path")
+          .attr("d", tweetLine(data))
+          .attr("fill", "none")
+          .attr("stroke", amadeusColors[n])
+          .attr("stroke-width", 3)
+
+        n++;
+      }
+    }
+  </script>
+</body>
+
+</html>

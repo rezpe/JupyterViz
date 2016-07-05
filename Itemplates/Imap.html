@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+  path {
+    stroke: rgb(0, 169, 224);
+    stroke-width: 0.25px;
+    fill: rgb(106, 209, 227);
+  }
+</style>
+
+<body>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="http://d3js.org/topojson.v0.min.js"></script>
+  <script src="http://d3js.org/queue.v1.min.js"></script>
+  <script>
+    var width = {width},
+      height = {height};
+
+    var projection = d3.geo.mercator()
+      .center([2.2, 30])
+      .scale(150);
+
+    var svg = d3.select("body").append("svg")
+      .attr("width", width)
+      .attr("height", height)
+
+    var main = svg.append("g");
+
+    var defs = svg.append("defs");
+    var myglow = defs.append("filter")
+      .attr("id", "myglow")
+      .attr("x", -0.1)
+      .attr("y", -0.1)
+      .attr("width", "400%")
+      .attr("height", "400%")
+    myglow.append("feGaussianBlur")
+      .attr("in", "offOut")
+      .attr("result", "blurOut")
+      .attr('stdDeviation', 1)
+    myglow.append("feBlend")
+      .attr("in", "SourceGraphic")
+      .attr("in2", "blurOut")
+      .attr("result", "blurOut")
+      .attr("mode", "normal")
+
+    var path = d3.geo.path()
+      .projection(projection);
+
+    queue()
+      .defer(d3.json, "world-110m.json")
+      .await(makeMyMap);
+
+    // load and display the World
+    function makeMyMap(error, topology) {
+
+      var cities = {cities}
+      var routes = {routes}
+
+      //We draw the topology
+      var g = main.append("g");
+      g.selectAll(".feature")
+        .data(topojson.object(topology, topology.objects.countries)
+          .geometries)
+        .enter()
+        .append("path")
+        .attr("class", "feature")
+        .style("filter", "url(#myglow)")
+        .attr("d", path)
+
+      //We draw the cities
+      var g = main.append("g");
+      g.selectAll("circle")
+        .data(cities)
+        .enter()
+        .append("circle")
+        .attr("cx", function(d) {
+          return projection([d.lon, d.lat])[0];
+        })
+        .attr("cy", function(d) {
+          return projection([d.lon, d.lat])[1];
+        })
+        .attr("r", 3)
+        .style("fill", d3.rgb(206, 0, 88));
+
+      g.selectAll(".city")
+        .data(cities)
+        .enter()
+        .append("text")
+        .attr("class", "city")
+        .style("font-size", 10)
+        .attr("x", function(d) {
+          return projection([d.lon, d.lat])[0];
+        })
+        .attr("y", function(d) {
+          return projection([d.lon, d.lat])[1];
+        })
+        .text(function(d) {
+          return d.city
+        });
+
+      //We draw the routes
+      var g = main.append("g");
+      g.selectAll(".route")
+        .data(routes)
+        .enter()
+        .append("path")
+        .attr("class", "route")
+        .attr("d", function(d) {
+          return path({
+            "type": "LineString",
+            "coordinates": [
+              [d.arr_lng, d.arr_lat],
+              [d.dep_lng, d.dep_lat],
+            ]
+          })
+        })
+        .style("stroke-width", 1)
+        .style("stroke", d3.rgb(206, 0, 88))
+        .style("fill", "transparent")
+        .style("stroke-linecap", "round");
+
+      g.selectAll(".arrival")
+        .data(routes)
+        .enter()
+        .append("text")
+        .attr("class", "arrival")
+        .style("font-size", 10)
+        .attr("x", function(d) {
+          return projection([d.arr_lng, d.arr_lat])[0];
+        })
+        .attr("y", function(d) {
+          return projection([d.arr_lng, d.arr_lat])[1];
+        })
+        .text(function(d) {
+          return d.arr_city
+        });
+
+      g.selectAll(".departure")
+        .data(routes)
+        .enter()
+        .append("text")
+        .attr("class", "departure")
+        .style("font-size", 10)
+        .style("stroke-width", 1)
+        .attr("x", function(d) {
+          return projection([d.dep_lng, d.dep_lat])[0];
+        })
+        .attr("y", function(d) {
+          return projection([d.dep_lng, d.dep_lat])[1];
+        })
+        .text(function(d) {
+          return d.dep_city
+        });
+    }
+
+    // zoom and pan
+    var zoom = d3.behavior.zoom()
+      .on("zoom", function() {
+        main.attr("transform", "translate(" +
+          d3.event.translate.join(",") + ")scale(" + d3.event.scale + ")");
+      });
+
+    svg.call(zoom)
+  </script>
+</body>
+
+</html>
