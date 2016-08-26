@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<body>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+    <!-- I recommend you host this file on your own, since this will change without warning -->
+    <script src="http://datamaps.github.io/scripts/datamaps.world.min.js?v=1"></script>
+
+    <div id="container1" style="width: {width}px; max-height: {height}px;"></div>
+
+
+    <script>
+        //basic map config with custom fills, mercator projection
+        var map = new Datamap({
+            scope: 'world',
+            element: document.getElementById('container1'),
+            setProjection: function(element) {
+                var projection = d3.geo.azimuthalEqualArea()
+                    .center({center})
+                    .scale({scale})
+                    .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
+                var path = d3.geo.path()
+                    .projection(projection);
+
+                return {
+                    path: path,
+                    projection: projection
+                };
+            },
+            height: {height},
+            fills: {
+                defaultFill: '#1f77b4',
+                orange: '#ff7f0e'
+            },
+            data: {
+
+            }
+        })
+
+        /*{
+                "name": "Birmingham",
+                "latitude": 33.520661,
+                "longitude": -86.80249,
+                "fillKey": "orange",
+                "radius": 5
+            }]*/
+        var cities = {data}
+
+        map.bubbles(cities, {
+            popupTemplate: function(geo, data) {
+                return "<div class='hoverinfo'>It is " + data.name + "</div>";
+            }
+        });
+    </script>
+</body>
