@@ -9,6 +9,6 @@ setup(
   url = 'https://github.com/rezpe/JupyterViz', # use the URL to the github repo
   download_url = 'https://github.com/rezpe/JupyterViz/tarball/0.2', # I'll explain this in a second
   keywords = ['jupyter', 'visualization'], # arbitrary keywords
-  package_data={'templates': ['templates/*.html']},
+  package_data={'templates': ['templates/*.html'],'help':['help/help.yaml']},
   classifiers = [],
 )
