@@ -1,0 +1,12 @@
+- chart: JSON
+  description: It shows a tree view of the dictionary with all the fields. It let the user explore the data.
+  preview: json.png
+  parameters:
+    - data: Dictionary in any format
+      data-example: '{"a":34,"b":5,"c":"The water river is clean"}'
+- chart: Force Network
+  description: It shows a Force Network Diagram
+  preview: force.png
+  parameters:
+    - data: The data must be passed with a list of edges and the nodes
+      data-example: '{edges:[{}],nodes:[{}]}'
