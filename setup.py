@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
   name = 'jupyterviz',
   packages = ['jupyterviz'], # this must be the same as the name above
-  version = '0.2',
+  version = '0.3',
   description = 'Visualization charts for jupyter',
   author = 'Sebastien Perez',
   author_email = 'sebastien.perezvasseur@gmail.com',
