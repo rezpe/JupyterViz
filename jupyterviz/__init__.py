@@ -1,4 +1,4 @@
-from IPython.display import IFrame
+from IPython.display import IFrame, HTML
 import pkg_resources, os
 import json
 import yaml
@@ -35,3 +35,9 @@ def help():
     resource_path = os.path.join('help', "help.yaml")
     template = pkg_resources.resource_string(resource_package, resource_path)
     return viz({"type":"json","data":yaml.load(template)})
+
+def secretInput(varName):
+    resource_path = os.path.join('templates', "secret.html")
+    template = pkg_resources.resource_string(resource_package, resource_path)
+    template=template.replace("{varName}",varName)
+    return HTML(template)

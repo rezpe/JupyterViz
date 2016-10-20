@@ -1,10 +1,14 @@
-- chart: JSON
+- module: JSON
   description: It shows a tree view of the dictionary with all the fields. It let the user explore the data.
   parameters:
     - data: Dictionary in any format
       data-example: '{"a":34,"b":5,"c":"The water river is clean"}'
-- chart: Force Network
+- module: Force Network
   description: It shows a Force Network Diagram
   parameters:
     - data: The data must be passed with a list of edges and the nodes
       data-example: '{edges:[{"name":"Myriel","group":1},..],nodes:[{"source":1,"target":0,"value":1},..]}'
+- module: Secret Input
+  description: It provides an input with hidden characters, specially useful to write passwords and not having to store them in the notebook.
+  parameters:
+    - varName: The name of the variable to save
