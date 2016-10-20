@@ -5,11 +5,17 @@ import yaml
 
 resource_package = __name__
 
-def viz(d,width=600,height=500,conf=None):
+def viz(d,conf=None):
     dest="temp_plot.html"
     viz=d['type']
     data=d["data"]
-    resource_path = os.path.join('Itemplates', viz+".html")
+    width=600
+    height=550
+    if "width" in d:
+        width=d["width"]
+    if "height" in d:
+        width=d["height"]
+    resource_path = os.path.join('templates', viz+".html")
     template = pkg_resources.resource_string(resource_package, resource_path)
     template=template.replace("{data}",json.dumps(data))
     template=template.replace("{width}",str(width))
@@ -18,9 +24,12 @@ def viz(d,width=600,height=500,conf=None):
         for key in conf.keys():
             template=template.replace("{"+key+"}",json.dumps(conf[key]))
 
-    with open("tmp/tmpbox.htm","w") as output:
+    if not os.path.exists("tmp"):
+        os.makedirs("tmp")
+
+    with open("tmp/plot_viz.html","w") as output:
         output.write(template)
-    return IFrame("tmp/tmpbox.htm",width+50,height+50)
+    return IFrame("tmp/plot_viz.html",width+50,height+50)
 
 def help():
     resource_path = os.path.join('help', "help.yaml")
