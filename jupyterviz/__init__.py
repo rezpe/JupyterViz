@@ -22,7 +22,7 @@ def viz(d,conf=None):
     template=template.replace("{height}",str(height))
     if conf:
         for key in conf.keys():
-            template=template.replace("{"+key+"}",json.dumps(conf[key]))
+            template=template.replace("{"+key+"}",conf[key])
 
     if not os.path.exists("tmp"):
         os.makedirs("tmp")
