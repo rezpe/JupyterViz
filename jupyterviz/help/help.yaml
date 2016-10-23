@@ -2,7 +2,7 @@
   description: It shows a tree view of the dictionary with all the fields. It let the user explore the data.
   parameters:
     - data: Dictionary in any format
-      data-example: '{"a":34,"b":5,"c":"The water river is clean"}'
+      data-example: {"a":34,"b":5,"c":"The water river is clean"}
 - module: Force Network
   description: It shows a Force Network Diagram
   parameters:
@@ -12,3 +12,13 @@
   description: It provides an input with hidden characters, specially useful to write passwords and not having to store them in the notebook.
   parameters:
     - varName: The name of the variable to save
+- module: Pug Templates
+  description: You can now create pages with pug.js templates (formerly jade).
+  parameters:
+    - data: The data to represent. It can be in any format
+      data-example: '{"list":[{"name":"Ben"},{"name":"Martine"},{"name":"Sebas"}]}'
+  configuration:
+    - template: You specify the template to render
+      template-example: >
+              for element in list
+                h1 Hi, #{element.name}
