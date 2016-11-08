@@ -27,6 +27,7 @@ Leaflet Map:
     center: The center of the view
     zoom: Level of zoom
 Pug Templates:
+  id: pug
   description: You can now create pages with pug.js templates (formerly jade).
   parameters:
     data: The data to represent. It can be in any format
