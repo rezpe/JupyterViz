@@ -1,14 +1,28 @@
-- module: JSON
+JSON:
+  id: json
   description: It shows a tree view of the dictionary with all the fields. It let the user explore the data.
   parameters:
-    - data: Dictionary in any format
-      data-example: '{"a":34,"b":5,"c":"The water river is clean"}'
-- module: Force Network
+    data: Dictionary in any format
+    data-example: '{"a":34,"b":5,"c":"The water river is clean"}'
+Force Network:
+  id: force
   description: It shows a Force Network Diagram
   parameters:
-    - data: The data must be passed with a list of edges and the nodes
-      data-example: '{edges:[{"name":"Myriel","group":1},..],nodes:[{"source":1,"target":0,"value":1},..]}'
-- module: Secret Input
+    data: The data must be passed with a list of edges and the nodes
+    data-example: '{edges:[{"name":"Myriel","group":1},..],nodes:[{"source":1,"target":0,"value":1},..]}'
+Secret Input:
+  function: secretInput
   description: It provides an input with hidden characters, specially useful to write passwords and not having to store them in the notebook.
+  arguments:
+    arg1: The name of the variable to save
+Leaflet Map:
+  description: It provides a Leaflet Map with markers
   parameters:
-    - varName: The name of the variable to save
+    data: '{
+        "name": "Canada",
+        "url": "https://en.wikipedia.org/wiki/Canada",
+        "lat": 56.130366,
+        "lng": -106.346771
+    }'
+    center: The center of the view
+    zoom: Level of zoom
