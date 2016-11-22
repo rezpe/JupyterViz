@@ -16,16 +16,31 @@ Secret Input:
   arguments:
     arg1: The name of the variable to save
 Leaflet Map:
+  id: leafletmap
   description: It provides a Leaflet Map with markers
   parameters:
-    data: '{
+    data: A list of points to represent in the map
+    data-example: '[{
         "name": "Canada",
         "url": "https://en.wikipedia.org/wiki/Canada",
         "lat": 56.130366,
         "lng": -106.346771
-    }'
+    }]'
     center: The center of the view
     zoom: Level of zoom
+Data Map:
+  id:
+  description: It provides a vector Map with markers
+  parameters:
+    data: A list of points to represent in the map
+    data-example: '[{
+            "name": "Canada",
+            "url": "https://en.wikipedia.org/wiki/Canada",
+            "lat": 56.130366,
+            "lng": -106.346771
+        }]'
+    center: The center of the view [lat,long]
+    scale: Level of zoom (recommended 300)
 Pug Templates:
   id: pug
   description: You can now create pages with pug.js templates (formerly jade).
