@@ -51,3 +51,10 @@ Pug Templates:
     template-example: >
               for element in list
                 h1 Hi, #{element.name}
+Vegalite:
+  id: vegalite
+  description: You can now create visualization from vegalite specs.
+  parameters:
+    data: The data to represent. It can be in any format
+    data-example: '{"list":[{"name":"Ben"},{"name":"Martine"},{"name":"Sebas"}]}'
+    spec: Vega-lite spec

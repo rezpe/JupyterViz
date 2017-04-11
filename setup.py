@@ -1,6 +1,6 @@
 from distutils.core import setup
 
-release = 0.17
+release = 0.18
 
 setup(
   name = 'jupyterviz',
