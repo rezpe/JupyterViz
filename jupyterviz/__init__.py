@@ -48,14 +48,6 @@ def serve(df):
         raise ValueError("Data Frame should be smaller")
 
     df=pd.DataFrame(df)
-
-    """The files were generated with the following command:
-        openssl req \
-               -newkey rsa:2048 -nodes -keyout domain.key \
-               -x509 -days 365 -out domain.crt
-    """
-    context = (pkg_resources.resource_filename(resource_package, 'certificates/domain.crt'),
-               pkg_resources.resource_filename(resource_package, 'certificates/domain.key'))
     
     app = Flask(__name__)
     api = Api(app)
@@ -67,4 +59,4 @@ def serve(df):
 
     api.add_resource(pandarequest, '/api/db')
     print "URL: https://localhost:8090/api/db"
-    app.run(host="0.0.0.0",port=8090,ssl_context=context,threaded=True,)
+    app.run(host="0.0.0.0",port=8090,ssl_context='adhoc',threaded=True,)
