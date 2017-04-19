@@ -1,6 +1,6 @@
 from distutils.core import setup
 
-release = 0.23
+release = 0.26
 
 setup(
   name = 'jupyterviz',
@@ -10,7 +10,7 @@ setup(
   author = 'Sebastien Perez',
   author_email = 'sebastien.perezvasseur@gmail.com',
   url = 'https://github.com/rezpe/JupyterViz', # use the URL to the github repo
-  download_url = 'https://github.com/rezpe/JupyterViz/tarball/'+str(release), # I'll explain this in a second
+  download_url = 'https://github.com/rezpe/JupyterViz/tarball/'+str(release), 
   keywords = ['jupyter', 'visualization'], # arbitrary keywords
   package_data={'jupyterviz': ['templates/*.html','help/help.yaml']},
   classifiers = [],
