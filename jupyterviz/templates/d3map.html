@@ -47,14 +47,15 @@
       .projection(projection);
 
     queue()
-      .defer(d3.json, "world-110m.json")
+      .defer(d3.json, "https://unpkg.com/world-atlas@1/world/110m.json")
       .await(makeMyMap);
 
     // load and display the World
     function makeMyMap(error, topology) {
-
-      var cities = {cities}
-      var routes = {routes}
+        
+      var data = {data}
+      var cities = data.cities
+      var routes = data.routes
 
       //We draw the topology
       var g = main.append("g");
@@ -64,7 +65,7 @@
         .enter()
         .append("path")
         .attr("class", "feature")
-        .style("filter", "url(#myglow)")
+        //.style("filter", "url(#myglow)")
         .attr("d", path)
 
       //We draw the cities

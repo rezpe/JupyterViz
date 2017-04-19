@@ -12,6 +12,9 @@ def viz(**kwargs):
         kwargs["width"]=600
     if "height" not in kwargs.keys():
         kwargs["height"]=600
+    if "datadf" in kwargs.keys():
+        kwargs["data"]=kwargs["datadf"].to_dict(orient="records")
+        kwargs.pop("datadf", None)
     resource_path = os.path.join('templates', viz+".html")
     template = pkg_resources.resource_string(resource_package, resource_path)
 
