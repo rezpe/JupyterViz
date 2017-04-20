@@ -53,8 +53,92 @@ Pug Templates:
                 h1 Hi, #{element.name}
 Vegalite:
   id: vegalite
-  description: You can now create visualization from vegalite specs.
+  description: Visualizations from vegalite specs.
   parameters:
-    data: The data to represent. It can be in any format
-    data-example: '{"list":[{"name":"Ben"},{"name":"Martine"},{"name":"Sebas"}]}'
+    data: The data to represent. It must be a list of objects.
+    data-example: >
+      [{'Date': '2011-01-01', 'Value': 1913874},
+      {'Date': '2011-01-02', 'Value': 2756039}]
     spec: Vega-lite spec
+Calendar Heatmap:
+  id: calendarheatmap
+  description: Calendar view of values
+  parameters :
+    data: The data to represent.
+    data-example: >
+      [{'Date': '2011-01-01', 'Value': 1913874},
+      {'Date': '2011-01-02', 'Value': 2756039}]
+Boxplot:
+  id: calendarheatmap
+  description: BoxPlot of data experiments
+  parameters :
+    data: The values of median, quantiles, ... per experiment
+    data-example: |-
+      [{'day': 0,
+      'max': 65,
+      'median': 33,
+      'min': 14,
+      'number': 22,
+      'q1': 20,
+      'q3': 35},...]
+CirclePack:
+  id: circlepack
+  description: CircleMap with tree like data
+  parameters :
+    data: Data in tree structure format
+    data-example: |-
+      {'name':"Africa",'children': [{'name':"south",'children': [{'name': 'Angola', 'size': 24227524},{'name': 'Burundi', 'size': 10816860},...],}
+D3 Map:
+  id: d3map
+  description: D3 Map
+  parameters :
+    data: Cities and Routes
+    data-example: |-
+      {'cities' : [{'city': "Paris", 'lat': 2 , 'lon': 48}] , 
+      'routes':[{'arr_lat': 24,'arr_lng': 54,'arrival': u'oAE','dep_lat': 24,'dep_lng': 54,'departure': u'oAE'},]}   
+Motion:
+  id: motion
+  description: Motion Viewer
+  parameters :
+    data: Motion data from Motion Capture for example
+    data-example: |-
+       [{u'name': u'C7',u'trajectory': [{u'time': 0.0, u'x': -1993.9, u'y': -420.70000000000005},
+       {u'time': 0.0083, u'x': -1987.4, u'y': -421.4000000000001},]}
+Polestar Server:
+  function: serve
+  description: It creates and runs a server which serves a dataframe as a json object. It can be used by polestar to visualize data. The data is served as a json object on url localhost:8090/api/db 
+  arguments:
+    arg1: The dataframe to serve. All fields must be JSON serializable and the df must have less than 10000 rows.
+    
+Sankey Diagram:
+  id: sankey
+  description: Sankey Diagram like the ones used in Google Analytics Visitors Flow
+  parameters :
+    data: Data with the links
+    data-example: |-
+       [{'source': 'Barry', 'target': 'Elvis', 'value': 2},{'source': 'Frodo', 'target': 'Elvis', 'value': 2}]    
+StreamChart:
+  id: streamchart
+  description: StreamChart are stacked line charts centered on the middle, so slopes are less steep. Paper at http://leebyron.com/streamgraph/stackedgraphs_byron_wattenberg.pdf 
+  parameters :
+    data: Data with the evolutions.
+    data-example: |-
+       {'day': {0: 1, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6, 6: 7, 7: 8, 8: 9, 9: 10},
+       'movie1': {0: 20, 1: 18, 2: 14, 3: 7, 4: 4, 5: 3, 6: 2, 7: 0, 8: 0, 9: 0},
+       'movie2': {0: 8, 1: 5, 2: 3, 3: 3, 4: 3, 5: 1, 6: 0, 7: 0, 8: 0, 9: 0},}       
+Sunburst:
+  id: sunburst
+  description: This type of visualisation shows hierarchy through a series of rings, that are sliced for each category node. Each ring corresponds to a level in the hierarchy, with the central circle representing the root node and the hierarchy moving outwards from it.
+  parameters :
+    data: Tree based data
+    data-example: |-
+       [['Asia-Asia', 9523203],
+         ['Not relevant/available-Not relevant/available', 402],
+         ['Africa-Europe', 967786]]
+TreeMap:
+  id: treemap
+  description: Treemapping is a method for displaying hierarchical data using nested rectangles
+  parameters :
+    data: Data in tree structure format
+    data-example: |-
+      {'name':"Africa",'children': [{'name':"south",'children': [{'name': 'Angola', 'size': 24227524},{'name': 'Burundi', 'size': 10816860},...],}
