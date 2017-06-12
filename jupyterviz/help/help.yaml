@@ -141,4 +141,18 @@ TreeMap:
   parameters :
     data: Data in tree structure format
     data-example: |-
-      {'name':"Africa",'children': [{'name':"south",'children': [{'name': 'Angola', 'size': 24227524},{'name': 'Burundi', 'size': 10816860},...],}
+      {'name':"Africa",'children': [{'name':"south",'children': [{'name': 'Angola', 'size': 24227524},{'name': 'Burundi', 'size': 10816860},...],} 
+Sparkline:
+  id: sparkline
+  description: Sparklines are a way of displaying several line curves one next to the other.
+  parameters :
+    data: A list of objects with attributes values (list of numbers) and title (String).
+    data-example: |-
+      [{'title': '2016-04-26:5811','values': [0.0,0.0,0.0,]},{'title': '2016-04-26:5813','values': [0.0,0.0,0.0,]}]  
+Horizon Chart:
+  id: horizon
+  description: Horizon charts combine position and color to reduce vertical space. Start with a standard area chart, then mirror negative values or offset them vertically. (https://bl.ocks.org/mbostock/1483226)
+  parameters :
+    data: A list of objects with attributes values (list of numbers) and title (String).
+    data-example: |-
+      [{'title': '2016-04-26:5811','values': [0.0,0.0,0.0,]},{'title': '2016-04-26:5813','values': [0.0,0.0,0.0,]}]
