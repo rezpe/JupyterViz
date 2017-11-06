@@ -1,0 +1,13 @@
+language: python
+python:
+- '2.7'
+script:
+- touch foo
+deploy:
+  provider: pypi
+  user: rezpe
+  password:
+    secure: b650z+id++eeVj2SXfP8O/moSc2ahfFMJ6Hnp+qLYHqMLA7aApJOZ99s7f+YfJ/wz3l1x/Y7lbn3tZ4V7fNwycQj3s+hiEo7tBdMc2fELKVZa0ynpWLAt7QxpX9j/FBaaDmPw3tToz1/zzX4g7PmDHlySFsDLDiak8B1lypRpccOmGYsmJvUhhyyVe7OtylaNg6VEr/TXRF50MVHJU2udnfH8HZWEe3UYxc8N7Bp/d6OD8Saj5a0SHGAQtLWSIsFXt+UXG3DlPYder+VVq6zURsl92vPzWtIS7o2Qp+w5CUvIfOLUdzVuk44CXisNVPMMHxhqvdrobUWam+V5bZ71/hci/nc9l92iTgbGI8AksH4Jut1GAovW9lmjhY2GsQy+GvuxMIDDBeSQRCMmo71o9VdxyErK9TJpTEbDBAPQ6NUM//VP30HJjiV4/yrWm6y0pb4LIiZpGYeoJxoFWv51iKFaHCOe52TU+a8wonL2q5L0jDmFmCfOZGRR94GNT6TRRCz/pVMARPv+PjdeiBoACQoC9v5We6vSJ1lj1wV420xPWrt8QD8KfLJOZmtGu5jdxhhybiNrFlpfxHB38v63MgUEBqlHVNPqN4sQ2fCETIRocKiaq7Fv6Rf0+v4sSLZSuXHb76bl6riqPq1QdpxprwCpdOd7lw4zUg4lw7DKZE=
+  on:
+    tags: true
+    branch: master
