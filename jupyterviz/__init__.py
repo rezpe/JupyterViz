@@ -16,9 +16,9 @@ def viz(**kwargs):
         kwargs["data"]=kwargs["datadf"].to_dict(orient="records")
         kwargs.pop("datadf", None)
     resource_path = os.path.join('templates', viz+".html")
-    template = pkg_resources.resource_string(resource_package, resource_path)
+    template = pkg_resources.resource_string(resource_package, resource_path).decode("utf-8") 
 
-    for key,value in kwargs.iteritems():
+    for key,value in kwargs.items():
         template=template.replace("{"+key+"}",json.dumps(value))
 
     if not os.path.exists("tmp"):
@@ -61,5 +61,5 @@ def serve(df):
             return df.reset_index().to_dict(orient="records")
 
     api.add_resource(pandarequest, '/api/db')
-    print "URL: https://localhost:8090/api/db"
+    print("URL: https://localhost:8090/api/db")
     app.run(host="0.0.0.0",port=8090,ssl_context='adhoc',threaded=True,)
