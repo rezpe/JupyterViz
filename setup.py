@@ -1,11 +1,9 @@
 from distutils.core import setup
 
-release = 1.0.1
-
 setup(
   name = 'jupyterviz',
   packages = ['jupyterviz'], # this must be the same as the name above
-  version = str(release),
+  version = "1.0.2",
   description = 'Visualization charts for jupyter',
   author = 'Sebastien Perez',
   author_email = 'sebastien.perezvasseur@gmail.com',
