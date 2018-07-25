@@ -39,27 +39,3 @@ def secretInput(varName):
     template = pkg_resources.resource_string(resource_package, resource_path)
     template=template.replace("{varName}",varName)
     return HTML(template)
-
-##Once executed, the data will be available on http://localhost:8090/api/db
-from flask import Flask
-from flask_restful import Resource, Api, reqparse
-from flask_cors import CORS, cross_origin
-import pandas as pd
-
-def serve(df):
-    if len(df)>100000:
-        raise ValueError("Data Frame should be smaller")
-
-    df=pd.DataFrame(df)
-    
-    app = Flask(__name__)
-    api = Api(app)
-    CORS(app)
-
-    class pandarequest(Resource):
-        def get(self):
-            return df.reset_index().to_dict(orient="records")
-
-    api.add_resource(pandarequest, '/api/db')
-    print("URL: https://localhost:8090/api/db")
-    app.run(host="0.0.0.0",port=8090,ssl_context='adhoc',threaded=True,)

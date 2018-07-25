@@ -156,3 +156,10 @@ Horizon Chart:
     data: A list of objects with attributes values (list of numbers) and title (String).
     data-example: |-
       [{'title': '2016-04-26:5811','values': [0.0,0.0,0.0,]},{'title': '2016-04-26:5813','values': [0.0,0.0,0.0,]}]
+Chord Diagram:
+  id: chord
+  description: Chord diagrams show directed relationships among a group of entities. Layout inspired by Martin Krzywinski's beautiful work on Circos.
+  parameters :
+    data: Specified square matrix of size n×n, where the matrix represents the directed flow amongst a network (a complete digraph) of n nodes.
+    data-example: |-
+      [[11975,  5871, 8916, 2868],[ 1951, 10048, 2060, 6171],[ 8010, 16145, 8090, 8045],[ 1013,   990,  940, 6907]]
